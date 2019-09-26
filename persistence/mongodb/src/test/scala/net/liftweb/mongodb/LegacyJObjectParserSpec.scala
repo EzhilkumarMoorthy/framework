@@ -26,8 +26,8 @@ import org.specs2.mutable.Specification
 
 import com.mongodb.DBObject
 
-class JObjectParserSpec extends Specification  {
-  "JObjectParser Specification".title
+class LegacyJObjectParserSpec extends Specification  {
+  "LegacyJObjectParser Specification".title
 
   def buildTestData: (ObjectId, DBObject) = {
     val oid = ObjectId.get
