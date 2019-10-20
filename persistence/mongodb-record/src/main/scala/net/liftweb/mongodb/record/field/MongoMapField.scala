@@ -118,25 +118,28 @@ class MongoMapField[OwnerType <: BsonRecord[OwnerType], MapValueType](rec: Owner
   }
 
   // set this field's value using a bson.Document returned from Mongo.
+  @deprecated("This was replaced with the functions from 'BsonableField'.", "3.4.0")
   def setFromDocument(doc: Document): Box[Map[String, MapValueType]] = {
-    val map: Map[String, MapValueType] = doc.asScala.map {
-      case (k, v) => k -> v.asInstanceOf[MapValueType]
-    } (scala.collection.breakOut)
+    val map = scala.collection.mutable.Map[String, MapValueType]()
+
+    doc.keySet.asScala.foreach { k =>
+      map += k -> doc.get(k).asInstanceOf[MapValueType]
+    }
 
     setBox {
-      Full(map)
+      Full(map.toMap)
     }
   }
 
+  @deprecated("This was replaced with the functions from 'BsonableField'.", "3.4.0")
   def asDocument: Document = {
-    val map: Map[String, AnyRef] = {
-      value.keys.map {
-        k => k -> value.getOrElse(k, "")
-          .asInstanceOf[AnyRef]
-      } (scala.collection.breakOut)
+    val doc = new Document()
+
+    value.keys.view.foreach { k =>
+      doc.append(k, value.getOrElse(k, "").asInstanceOf[AnyRef])
     }
 
-    new Document(map.asJava)
+    doc
   }
 
   def setFromBsonReader(reader: BsonReader, context: DecoderContext, registry: CodecRegistry, bsonTypeCodecMap: BsonTypeCodecMap): Box[Map[String, MapValueType]] = {

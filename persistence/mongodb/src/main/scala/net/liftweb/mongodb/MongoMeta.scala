@@ -94,7 +94,7 @@ trait MongoMeta[BaseDocument, TDocument] extends JsonFormats with MongoCodecs {
   /**
    * Create all of the indexes set in the `indexes` list.
    */
-  def createIndexes(): Seq[String] = useCollection(_.createIndexes(indexes.map(_.asModel).asJava).asScala)
+  def createIndexes(): Seq[String] = useCollection(_.createIndexes(indexes.map(_.asModel).asJava).asScala.toList)
 
   /**
    * Use the collection associated with this Meta.

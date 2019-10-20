@@ -58,7 +58,7 @@ object JObjectParser extends SimpleInjector {
   */
   @deprecated("Please use BsonParser instead.", "3.4.0")
   def serialize(a: Any)(implicit formats: Formats): JValue = {
-    import Meta.Reflection._
+    import mongodb.Meta.Reflection._
     a.asInstanceOf[AnyRef] match {
       case null => JNull
       case x if primitive_?(x.getClass) => primitive2jvalue(x)

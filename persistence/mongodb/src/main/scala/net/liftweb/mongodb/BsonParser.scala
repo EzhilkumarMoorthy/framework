@@ -54,7 +54,7 @@ object BsonParser extends SimpleInjector {
   * Serialize a BsonDocument into a JObject
   */
   def serialize(a: Any)(implicit formats: Formats): JValue = {
-    import Meta.Reflection._
+    import mongodb.Meta.Reflection._
     a.asInstanceOf[AnyRef] match {
       case null => JNull
       case x if primitive_?(x.getClass) => primitive2jvalue(x)

@@ -330,13 +330,13 @@ class LegacyMongoDocumentExamplesSpec extends Specification with MongoTestKit {
 
   "Mongo tutorial example" in {
 
-    import scala.collection.JavaConversions._
+    import scala.collection.JavaConverters._
 
     checkMongoIsRunning
 
     // get the indexes
     val ixs = MongoDB.useCollection(TstCollection.collectionName)( coll => {
-      coll.getIndexInfo
+      coll.getIndexInfo.asScala
     })
 
     // unique index on name
